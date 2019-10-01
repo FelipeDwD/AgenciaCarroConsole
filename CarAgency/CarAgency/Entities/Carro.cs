@@ -10,5 +10,7 @@ namespace CarAgency.Entities
         public string modelo { get; set; }
         public string cor { get; set; }
         public string placa { get; set; }
+
+        public double Preco { get; set; }
     }
 }

@@ -7,16 +7,15 @@ namespace CarAgency.Entities
     class Cliente
     {
         public string Nome { get; set; }
-        public int idade { get; set; }
+        public int Idade { get; set; }
         public int QuantidadeComprasAgencia { get; set; }
 
         public Cliente() { }
 
-        public Cliente(string Nome, int idade)
+        public Cliente(string nome, int idade)
         {
-            Nome = Nome;
-            idade = idade;
-            AddCompra();
+            Nome = nome;
+            Idade = idade;            
         }
 
         public void AddCompra()
@@ -27,6 +26,13 @@ namespace CarAgency.Entities
         public int QuantidadeCompras()
         {
             return QuantidadeComprasAgencia;
+        }
+
+        public override string ToString()
+        {
+            return $"\nNome: {Nome}" +
+                $"\nIdade: {Idade}" +
+                $"\nQuantidade Compras: {QuantidadeComprasAgencia}";
         }
     }
 }
