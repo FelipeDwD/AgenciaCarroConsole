@@ -21,7 +21,9 @@ namespace CarAgency
 
             //Vendas
             List<Consultor> consultores = new List<Consultor>();
+            List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
+            bool addCarrosVendas = false; 
 
             int count = 0;
 
@@ -47,10 +49,11 @@ namespace CarAgency
                         {
                             if (count == 0)
                             {
-                                Console.WriteLine("Menu Clientes" +
+                                Console.Write("Menu Clientes" +
                                 "\n 1 - Cadastrar Clientes" +
                                 "\n 2 - Listar Todos Clientes" +
-                                "\n 0 - Sair");
+                                "\n 0 - Sair" +
+                                "\n >_ ");
                                 count++;
                             }
 
@@ -102,10 +105,11 @@ namespace CarAgency
                         {
                             if (count == 0)
                             {
-                                Console.WriteLine("Menu de carros" +
+                                Console.Write("Menu de carros" +
                                                       "\n 1 - Cadastrar Carro" +
                                                       "\n 2 - Listar Todos carros cadastrados" +
-                                                      "\n 0 - Voltar");
+                                                      "\n 0 - Voltar" +
+                                                      "\n >_ ");
                                 count++;
                             }
 
@@ -167,15 +171,85 @@ namespace CarAgency
                         {
                             if (count == 0)
                             {
-                                Console.WriteLine("\n 1 - Vender" +
+                                Console.Write("Menu de vendas" +
+                                    "\n 1 - Vender" +
                                     "\n 2 - Cadastrar Consultor" +
-                                    "\n 3 - Listar Consultores Cadastrados");
+                                    "\n 3 - Listar Consultores Cadastrados" +
+                                    "\n 0 - Sair" +
+                                    "\n >_ ");
                                 count++;
                             }
+
                             opcaoUsuarioVendas = int.Parse(Console.ReadLine());
                             Console.Clear();
 
-                            if (opcaoUsuarioVendas == 2)
+                            if (opcaoUsuarioVendas == 1)
+                            {
+                                if (false)
+                                {
+                                    Console.WriteLine("Não há disponível todos recursos suficientes para efetuar uma venda!" +
+                                        "\nFavor, verificar recursos: " +
+                                        "\n" +
+                                        $"\n Carros cadastrados: {carros.Count}" +
+                                        $"\n Consultores cadastrados: {consultores.Count}" +
+                                        $"\n Clientes cadastrados: {clientes.Count}");
+                                }
+                                else
+                                {
+                                    addCarrosVendas = true;
+                                    Console.WriteLine("Quem efetuou a venda? ");
+                                    for (int i = 0; i < consultores.Count; i++)
+                                    {
+                                        Console.WriteLine($"[{(i + 1)}] - {consultores[i].Nome}");
+                                    }
+                                    Console.WriteLine();
+                                    Console.Write(">_ ");
+                                    int vendedor = int.Parse(Console.ReadLine());
+
+                                    Console.WriteLine($"{consultores[(vendedor - 1)].Nome} vendeu para qual cliente? ");
+
+                                    Console.WriteLine("Qual cliente efeutou a compra? ");
+                                    for (int i = 0; i < clientes.Count; i++)
+                                    {
+                                        Console.WriteLine($"[{(i + 1)}] - {clientes[i].Nome}");
+                                    }
+                                    Console.WriteLine();
+                                    Console.Write(">_ ");
+
+                                    int clienteEfeutouCompra = int.Parse(Console.ReadLine());                                    
+
+                                    while (addCarrosVendas)
+                                    {
+                                        Console.WriteLine($"Qual carro {clientes[(clienteEfeutouCompra - 1)].Nome} comprou? ");
+                                        for (int i = 0; i < carros.Count; i++)
+                                        {
+                                            Console.WriteLine($"\n[{(i + 1)}] :: " +
+                                                $"{carros[i]}");
+                                        }
+                                        Console.WriteLine();
+                                        Console.WriteLine(">_ ");
+                                        int carroVendido = int.Parse(Console.ReadLine());
+                                        carrosComprados.Add(carros[(carroVendido - 1)]);
+
+                                        Console.WriteLine("Acrescentar carro na venda? " +
+                                            "\n 1 - Sim" +
+                                            "\n 0 - Não");
+
+                                        Console.Write(">_ ");
+                                        int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+
+                                        if (continuarRegistrandoVenda == 0)
+                                        {
+                                            Venda venda = new Venda(clientes[(clienteEfeutouCompra - 1)], carrosComprados);
+                                            consultores[(vendedor - 1)].Vender(venda);
+                                            addCarrosVendas = false;
+                                            count = 1;
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                            else if (opcaoUsuarioVendas == 2)
                             {
                                 Console.Write("Digite o nome do consultor: ");
                                 string nome = Console.ReadLine();
@@ -184,7 +258,28 @@ namespace CarAgency
                                 ConsultorNivel nivelConsultor = Enum.Parse<ConsultorNivel>(Console.ReadLine());
 
                                 Consultor consultor = new Consultor(nome, nivelConsultor);
-                                
+                                consultores.Add(consultor);
+                                Console.Clear();              
+                                Console.WriteLine($"Consultor: {nome} cadastrado com sucesso!");
+                                count = 0;
+                                Console.ReadKey();
+                                Console.Clear();
+
+                            }else if (opcaoUsuarioVendas == 3)
+                            {
+                                if (consultores.Count > 0)
+                                {
+                                    foreach (Consultor consultor in consultores)
+                                    {
+                                        Console.WriteLine(consultor);
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não existe nenhum consultor cadastrado!");
+                                }
+                                Console.WriteLine();
+                                Console.WriteLine("0 - Voltar");
                             }
 
                         } while (opcaoUsuarioVendas != 0);

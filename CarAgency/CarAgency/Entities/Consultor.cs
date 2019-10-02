@@ -7,7 +7,7 @@ namespace CarAgency.Entities
 {
     class Consultor
     {
-        private int _quantidaDeVendas;
+        public int QuantidadeDeVendas { get; set; }
         public string Nome { get; set; }
         public ConsultorNivel Cargo { get; set; }
 
@@ -17,21 +17,19 @@ namespace CarAgency.Entities
         {
             Nome = nome;
             Cargo = cargo;
-        }
-
-        public int QuantidadeDeVendas
-        {
-            get { return _quantidaDeVendas; }
-            set
-            {
-                _quantidaDeVendas = 0;
-            }
-        }
+        }       
 
         public void Vender(Venda venda)
         {
             QuantidadeDeVendas++;
-            venda.cliente.AddCompra();
+            venda.Cliente.AddCompra();
+        }
+
+        public override string ToString()
+        {
+            return $"Nome: {Nome}" +
+                $"\nCargo: {Cargo}" +
+                $"\nQuantidade de vendas: {QuantidadeDeVendas}";
         }
     }
 }

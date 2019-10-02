@@ -12,18 +12,30 @@ namespace CarAgency.Entities
 
         private DateTime _date;
 
-        public Cliente cliente { get; private set; }
+        public Cliente Cliente { get; private set; }
 
-        public List<Carro> carros { get; private set; } = new List<Carro>();
+        public List<Carro> Carros { get; private set; } = new List<Carro>();
  
         public Venda() { }       
+
+        public Venda(Cliente cli, List<Carro> carrosVendidos)
+        {
+            Cliente = cli;
+            Carros = carrosVendidos;
+            QuantidadeDeCarros = carrosVendidos.Count;
+            Date = DateTime.Now;
+            foreach(Carro carro in carrosVendidos)
+            {
+                ValorTotal += carro.Preco;
+            }
+        }
 
         public int QuantidadeDeCarros
         {
             get { return _quantidaDeCarros; }
             set
             {
-                _quantidaDeCarros = 0;
+                _quantidaDeCarros = value;
             }
         }
 
@@ -41,20 +53,11 @@ namespace CarAgency.Entities
             get { return _date; }
             set
             {
-                _date = DateTime.Now;
+                _date = value;
             }
         }
 
-        public void AddCliente(Cliente cli)
-        {
-            cliente = cli;
-        }
 
-        public void AddCarros(Carro carro)
-        {
-            ValorTotal += carro.Preco;
-            QuantidadeDeCarros++;
-            carros.Add(carro);
-        }
+        
     }
 }
