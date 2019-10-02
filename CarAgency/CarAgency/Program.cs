@@ -23,7 +23,7 @@ namespace CarAgency
             List<Consultor> consultores = new List<Consultor>();
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
-            bool addCarrosVendas = false; 
+            bool addCarrosVendas = false;           
 
             int count = 0;
 
@@ -184,17 +184,9 @@ namespace CarAgency
                             Console.Clear();
 
                             if (opcaoUsuarioVendas == 1)
-                            {
-                                if (false)
-                                {
-                                    Console.WriteLine("Não há disponível todos recursos suficientes para efetuar uma venda!" +
-                                        "\nFavor, verificar recursos: " +
-                                        "\n" +
-                                        $"\n Carros cadastrados: {carros.Count}" +
-                                        $"\n Consultores cadastrados: {consultores.Count}" +
-                                        $"\n Clientes cadastrados: {clientes.Count}");
-                                }
-                                else
+                            {                          
+
+                                if (clientes.Count != 0 && carros.Count != 0 && consultores.Count != 0)
                                 {
                                     addCarrosVendas = true;
                                     Console.WriteLine("Quem efetuou a venda? ");
@@ -216,7 +208,7 @@ namespace CarAgency
                                     Console.WriteLine();
                                     Console.Write(">_ ");
 
-                                    int clienteEfeutouCompra = int.Parse(Console.ReadLine());                                    
+                                    int clienteEfeutouCompra = int.Parse(Console.ReadLine());
 
                                     while (addCarrosVendas)
                                     {
@@ -227,15 +219,15 @@ namespace CarAgency
                                                 $"{carros[i]}");
                                         }
                                         Console.WriteLine();
-                                        Console.WriteLine(">_ ");
+                                        Console.Write(">_ ");
                                         int carroVendido = int.Parse(Console.ReadLine());
                                         carrosComprados.Add(carros[(carroVendido - 1)]);
 
-                                        Console.WriteLine("Acrescentar carro na venda? " +
+                                        Console.Write("Acrescentar carro na venda? " +
                                             "\n 1 - Sim" +
-                                            "\n 0 - Não");
+                                            "\n 0 - Não" +
+                                            "\n >_ ");
 
-                                        Console.Write(">_ ");
                                         int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
 
                                         if (continuarRegistrandoVenda == 0)
@@ -244,10 +236,22 @@ namespace CarAgency
                                             consultores[(vendedor - 1)].Vender(venda);
                                             addCarrosVendas = false;
                                             count = 1;
+                                            Console.WriteLine("Venda cadastrada com sucesso!");
+                                            Console.WriteLine(venda);
                                         }
                                     }
-                                    
                                 }
+                                else
+                                {
+                                    Console.WriteLine("Não há disponível todos recursos suficientes para efetuar uma venda!" +
+                                        "\nFavor, verificar recursos: " +
+                                        "\n" +
+                                        $"\nCarros cadastrados: {carros.Count}" +
+                                        $"\nConsultores cadastrados: {consultores.Count}" +
+                                        $"\nClientes cadastrados: {clientes.Count}");
+                                }
+                                Console.WriteLine();
+                                Console.WriteLine("0 - Voltar");
                             }
                             else if (opcaoUsuarioVendas == 2)
                             {

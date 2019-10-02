@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
 namespace CarAgency.Entities
 {
     class Venda
-    {
-        private int _quantidaDeCarros;
+    {            
 
-        private double _valorTotal;
+        public int QuantidadeDeCarros { get; private set; }
 
-        private DateTime _date;
+        public double ValorTotal { get; private set; }
+
+        public DateTime DataVenda { get; set; }
 
         public Cliente Cliente { get; private set; }
 
         public List<Carro> Carros { get; private set; } = new List<Carro>();
- 
+
+        public string Descricao { get; private set; }
+
         public Venda() { }       
 
         public Venda(Cliente cli, List<Carro> carrosVendidos)
@@ -23,41 +27,28 @@ namespace CarAgency.Entities
             Cliente = cli;
             Carros = carrosVendidos;
             QuantidadeDeCarros = carrosVendidos.Count;
-            Date = DateTime.Now;
-            foreach(Carro carro in carrosVendidos)
+            DataVenda = DateTime.Now;
+            addCarrosListaDescricao(carrosVendidos);
+        }
+
+        public void addCarrosListaDescricao(List<Carro> carrosVendidos)
+        {            
+            foreach (Carro carro in carrosVendidos)
             {
                 ValorTotal += carro.Preco;
+                Descricao += $"\n{carro}";
             }
         }
 
-        public int QuantidadeDeCarros
+        public override string ToString()
         {
-            get { return _quantidaDeCarros; }
-            set
-            {
-                _quantidaDeCarros = value;
-            }
-        }
-
-        public double ValorTotal
-        {
-            get { return _valorTotal; }
-            set
-            {
-                _valorTotal = 0.0;
-            }
-        }
-
-        public DateTime Date
-        {
-            get { return _date; }
-            set
-            {
-                _date = value;
-            }
+            return $"\nValor Total: {ValorTotal.ToString("F2", CultureInfo.InvariantCulture)}" +
+                $"\nQuantidade de Carros: {QuantidadeDeCarros}" +
+                $"\nData da Venda: {DataVenda}" +
+                $"\n\nCarro(s) comprados: {Descricao}";
         }
 
 
-        
+
     }
 }
