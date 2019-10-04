@@ -23,7 +23,7 @@ namespace CarAgency
             List<Consultor> consultores = new List<Consultor>();
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
-            bool addCarrosVendas = false;           
+            bool addCarrosVendas = false;
 
             int count = 0;
 
@@ -184,7 +184,7 @@ namespace CarAgency
                             Console.Clear();
 
                             if (opcaoUsuarioVendas == 1)
-                            {                          
+                            {
 
                                 if (clientes.Count != 0 && carros.Count != 0 && consultores.Count != 0)
                                 {
@@ -196,9 +196,10 @@ namespace CarAgency
                                     }
                                     Console.WriteLine();
                                     Console.Write(">_ ");
-                                    int vendedor = int.Parse(Console.ReadLine());
+                                    int consultorPosition = int.Parse(Console.ReadLine()) - 1;
+                                    Consultor consultor = consultores[consultorPosition];
 
-                                    Console.WriteLine($"{consultores[(vendedor - 1)].Nome} vendeu para qual cliente? ");
+                                    Console.WriteLine($"{consultor.Nome} vendeu para qual cliente? ");
 
                                     Console.WriteLine("Qual cliente efeutou a compra? ");
                                     for (int i = 0; i < clientes.Count; i++)
@@ -208,11 +209,12 @@ namespace CarAgency
                                     Console.WriteLine();
                                     Console.Write(">_ ");
 
-                                    int clienteEfeutouCompra = int.Parse(Console.ReadLine());
+                                    int clientePosition = int.Parse(Console.ReadLine()) - 1;
+                                    Cliente cliente = clientes[clientePosition];
 
                                     while (addCarrosVendas)
                                     {
-                                        Console.WriteLine($"Qual carro {clientes[(clienteEfeutouCompra - 1)].Nome} comprou? ");
+                                        Console.WriteLine($"Qual carro {cliente.Nome} comprou? ");
                                         for (int i = 0; i < carros.Count; i++)
                                         {
                                             Console.WriteLine($"\n[{(i + 1)}] :: " +
@@ -220,25 +222,50 @@ namespace CarAgency
                                         }
                                         Console.WriteLine();
                                         Console.Write(">_ ");
-                                        int carroVendido = int.Parse(Console.ReadLine());
-                                        carrosComprados.Add(carros[(carroVendido - 1)]);
+                                        int carroVendidoPosicao = int.Parse(Console.ReadLine()) - 1;
+                                        Carro carroVendido = carros[carroVendidoPosicao];
+                                        carrosComprados.Add(carroVendido);
 
-                                        Console.Write("Acrescentar carro na venda? " +
+
+                                        if (consultor.AprovadoParaVender)
+                                        {
+                                            if (consultor.Cargo.ToString().Equals("Estagiario"))
+                                            {
+                                                Venda venda = new Venda(cliente, carrosComprados);
+                                                addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                            }
+                                            else
+                                            {
+                                                Console.Write("Acrescentar carro na venda? " +
                                             "\n 1 - Sim" +
                                             "\n 0 - Não" +
                                             "\n >_ ");
 
-                                        int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+                                                int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
 
-                                        if (continuarRegistrandoVenda == 0)
-                                        {
-                                            Venda venda = new Venda(clientes[(clienteEfeutouCompra - 1)], carrosComprados);
-                                            consultores[(vendedor - 1)].Vender(venda);
-                                            addCarrosVendas = false;
-                                            count = 1;
-                                            Console.WriteLine("Venda cadastrada com sucesso!");
-                                            Console.WriteLine(venda);
+                                                while (continuarRegistrandoVenda != 0 && continuarRegistrandoVenda != 1)
+                                                {
+                                                    Console.WriteLine("Opção inválida");
+                                                    continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+                                                }
+                                                if (continuarRegistrandoVenda == 0)
+                                                {
+                                                    Venda venda = new Venda(cliente, carrosComprados);
+                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                }
+                                            }
+
                                         }
+                                        else
+                                        {
+                                            Console.WriteLine("Não foi possível efetuar a venda do carro:" +
+                                                               $"\n{carroVendido}" +
+                                                               $"\n\n Colaborador: " +
+                                                               $"\n{consultor}" +
+                                                               $"\n" +
+                                                               $"\n ::: O CARGO NÃO PERMITE, TENTE COM UM CARRO ABAIXO OU IGUAL A R$ 25000.00 :::");
+                                            addCarrosVendas = false;
+                                        }                                        
                                     }
                                 }
                                 else
@@ -263,13 +290,14 @@ namespace CarAgency
 
                                 Consultor consultor = new Consultor(nome, nivelConsultor);
                                 consultores.Add(consultor);
-                                Console.Clear();              
+                                Console.Clear();
                                 Console.WriteLine($"Consultor: {nome} cadastrado com sucesso!");
                                 count = 0;
                                 Console.ReadKey();
                                 Console.Clear();
 
-                            }else if (opcaoUsuarioVendas == 3)
+                            }
+                            else if (opcaoUsuarioVendas == 3)
                             {
                                 if (consultores.Count > 0)
                                 {
@@ -296,5 +324,17 @@ namespace CarAgency
             }
 
         }
+
+        static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados)
+        {
+            carrosComprados.Clear();
+            consultor.Vender(venda);
+            Console.Clear();
+            Console.WriteLine("Venda efetuada com sucesso!");
+            Console.ReadKey();
+            Console.WriteLine(venda);
+            return false;
+        }
+
     }
 }

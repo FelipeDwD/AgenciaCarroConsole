@@ -20,18 +20,19 @@ namespace CarAgency.Entities
 
         public string Descricao { get; private set; }
 
-        public Venda() { }       
-
+        public Venda() { }     
+        
+       
         public Venda(Cliente cli, List<Carro> carrosVendidos)
         {
             Cliente = cli;
             Carros = carrosVendidos;
             QuantidadeDeCarros = carrosVendidos.Count;
             DataVenda = DateTime.Now;
-            addCarrosListaDescricao(carrosVendidos);
+            addCarrosListaDescricao_IncrementarValorTotal(carrosVendidos);
         }
 
-        public void addCarrosListaDescricao(List<Carro> carrosVendidos)
+        public void addCarrosListaDescricao_IncrementarValorTotal(List<Carro> carrosVendidos)
         {            
             foreach (Carro carro in carrosVendidos)
             {
@@ -42,10 +43,11 @@ namespace CarAgency.Entities
 
         public override string ToString()
         {
-            return $"\nValor Total: {ValorTotal.ToString("F2", CultureInfo.InvariantCulture)}" +
-                $"\nQuantidade de Carros: {QuantidadeDeCarros}" +
-                $"\nData da Venda: {DataVenda}" +
-                $"\n\nCarro(s) comprados: {Descricao}";
+            return $"\n::: NOTA EMITIDA :::" +
+                $"\n Valor Total: {ValorTotal.ToString("F2", CultureInfo.InvariantCulture)}" +
+                $"\n Quantidade de Carros: {QuantidadeDeCarros}" +
+                $"\n Data da Venda: {DataVenda}" +
+                $"\n\n Carro(s) comprados: {Descricao}";
         }
 
 
