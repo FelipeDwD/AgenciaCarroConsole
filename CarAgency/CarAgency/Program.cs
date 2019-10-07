@@ -24,6 +24,7 @@ namespace CarAgency
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
             bool addCarrosVendas = false;
+            double valorVenda = 0.0;
 
             int count = 0;
 
@@ -214,6 +215,7 @@ namespace CarAgency
 
                                     while (addCarrosVendas)
                                     {
+                                        Console.Clear();
                                         Console.WriteLine($"Qual carro {cliente.Nome} comprou? ");
                                         for (int i = 0; i < carros.Count; i++)
                                         {
@@ -224,48 +226,61 @@ namespace CarAgency
                                         Console.Write(">_ ");
                                         int carroVendidoPosicao = int.Parse(Console.ReadLine()) - 1;
                                         Carro carroVendido = carros[carroVendidoPosicao];
+                                        valorVenda += carroVendido.Preco;
                                         carrosComprados.Add(carroVendido);
 
-
-                                        if (consultor.AprovadoParaVender)
+                                        if (consultor.Cargo.ToString().Equals("Estagiario"))
                                         {
-                                            if (consultor.Cargo.ToString().Equals("Estagiario"))
+                                            Venda venda = new Venda(cliente, consultor, carrosComprados);
+                                            consultor.VerificarConsultorPodeVender(venda);
+
+                                            if (consultor.AprovadoParaVender)
                                             {
-                                                Venda venda = new Venda(cliente, carrosComprados);
                                                 addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
                                             }
                                             else
                                             {
-                                                Console.Write("Acrescentar carro na venda? " +
-                                            "\n 1 - Sim" +
-                                            "\n 0 - Não" +
-                                            "\n >_ ");
+                                                Console.Clear();
+                                                Console.WriteLine("Excedeu limite do estagiário!");
+                                                carrosComprados.Clear();
+                                                addCarrosVendas = false;
+                                            }
+                                        }
+                                        else if (consultor.Cargo.ToString().Equals("Junior"))
+                                        {
 
-                                                int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+                                            Console.Write("Acrescentar carro na venda? " +
+                                                       "\n 1 - Sim" +
+                                                      "\n 0 - Não" +
+                                                      "\n >_ ");
 
-                                                while (continuarRegistrandoVenda != 0 && continuarRegistrandoVenda != 1)
+                                            int continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+
+                                            while (continuarRegistrandoVenda != 0 && continuarRegistrandoVenda != 1)
+                                            {
+                                                Console.Write("Opção inválida!" +
+                                                    "\nTente novamente: ");
+                                                continuarRegistrandoVenda = int.Parse(Console.ReadLine());
+                                            }
+
+                                            if (continuarRegistrandoVenda == 0)
+                                            {
+                                                Venda venda = new Venda(cliente, consultor, carrosComprados);
+                                                consultor.VerificarConsultorPodeVender(venda);
+                                                valorVenda = 0.0;
+                                                if (consultor.AprovadoParaVender)
                                                 {
-                                                    Console.WriteLine("Opção inválida");
-                                                    continuarRegistrandoVenda = int.Parse(Console.ReadLine());
-                                                }
-                                                if (continuarRegistrandoVenda == 0)
-                                                {
-                                                    Venda venda = new Venda(cliente, carrosComprados);
                                                     addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
                                                 }
+                                                else
+                                                {
+                                                    Console.WriteLine("Excedeu limite para Juniores!");
+                                                    addCarrosVendas = false;
+                                                }
+
                                             }
 
                                         }
-                                        else
-                                        {
-                                            Console.WriteLine("Não foi possível efetuar a venda do carro:" +
-                                                               $"\n{carroVendido}" +
-                                                               $"\n\n Colaborador: " +
-                                                               $"\n{consultor}" +
-                                                               $"\n" +
-                                                               $"\n ::: O CARGO NÃO PERMITE, TENTE COM UM CARRO ABAIXO OU IGUAL A R$ 25000.00 :::");
-                                            addCarrosVendas = false;
-                                        }                                        
                                     }
                                 }
                                 else

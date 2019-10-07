@@ -14,6 +14,8 @@ namespace CarAgency.Entities
 
         public DateTime DataVenda { get; set; }
 
+        public Consultor Consultor { get; set; }
+
         public Cliente Cliente { get; private set; }
 
         public List<Carro> Carros { get; private set; } = new List<Carro>();
@@ -23,9 +25,10 @@ namespace CarAgency.Entities
         public Venda() { }     
         
        
-        public Venda(Cliente cli, List<Carro> carrosVendidos)
+        public Venda(Cliente cli, Consultor cons ,List<Carro> carrosVendidos)
         {
             Cliente = cli;
+            Consultor = cons;
             Carros = carrosVendidos;
             QuantidadeDeCarros = carrosVendidos.Count;
             DataVenda = DateTime.Now;
@@ -39,6 +42,11 @@ namespace CarAgency.Entities
                 ValorTotal += carro.Preco;
                 Descricao += $"\n{carro}";
             }
+        }
+
+        public void IncrementarValorTotal(double valor)
+        {
+            ValorTotal += valor;
         }
 
         public override string ToString()

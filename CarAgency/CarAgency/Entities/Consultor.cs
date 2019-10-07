@@ -17,14 +17,13 @@ namespace CarAgency.Entities
         public Consultor(string nome, ConsultorNivel cargo)
         {
             Nome = nome;
-            Cargo = cargo;
+            Cargo = cargo;           
         }       
 
         public void Vender(Venda venda)
         {
             QuantidadeDeVendas++;
-            venda.Cliente.AddCompra();
-            VerificarConsultorPodeVender(venda);
+            venda.Cliente.AddCompra();            
         }
 
         public bool AprovadoParaVender
@@ -36,18 +35,19 @@ namespace CarAgency.Entities
             }
         }
 
-        private void VerificarConsultorPodeVender(Venda venda)
+        public void VerificarConsultorPodeVender(Venda venda)
         {
             if (Cargo.ToString().Equals("Estagiario"))
             {
-                if (venda.ValorTotal <= 25000.00 && venda.QuantidadeDeCarros == 1)
+                if (venda.ValorTotal <= 25000.00)
                 {
                     AprovadoParaVender = true;
                 }
                 else
                 {
                     AprovadoParaVender = false;
-                }
+                }                
+               
             }
             else if (Cargo.ToString().Equals("Junior"))
             {
@@ -58,8 +58,8 @@ namespace CarAgency.Entities
                 else
                 {
                     AprovadoParaVender = false;
-                }
-            }
+                }               
+            }                     
         }
 
         public override string ToString()
