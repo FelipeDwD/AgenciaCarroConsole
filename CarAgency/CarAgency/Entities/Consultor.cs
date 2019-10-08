@@ -22,8 +22,23 @@ namespace CarAgency.Entities
 
         public void Vender(Venda venda)
         {
+            double desconto = 0.0;
+            double valorDesconto = 0.0;
+            int comprasCliente = venda.Cliente.QuantidadeComprasAgencia;
+
             QuantidadeDeVendas++;
-            venda.Cliente.AddCompra();            
+            venda.Cliente.AddCompra();
+
+            if (comprasCliente > 1)
+            {
+                desconto = 0.05;
+            }else if (comprasCliente > 2)
+            {
+                desconto = 0.08;
+            }
+            valorDesconto = venda.ValorTotal * desconto;
+            venda.ValorTotal -= valorDesconto;
+            venda.AddDesconto(valorDesconto);
         }
 
         public bool AprovadoParaVender

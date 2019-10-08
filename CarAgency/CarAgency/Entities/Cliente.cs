@@ -8,7 +8,7 @@ namespace CarAgency.Entities
     {
         public string Nome { get; set; }
         public int Idade { get; set; }
-        public int QuantidadeComprasAgencia { get; set; }
+        public int QuantidadeComprasAgencia { get; private set; }
 
         public Cliente() { }
 
@@ -22,11 +22,7 @@ namespace CarAgency.Entities
         {
             QuantidadeComprasAgencia++;
         }
-
-        public int QuantidadeCompras()
-        {
-            return QuantidadeComprasAgencia;
-        }
+       
 
         public override string ToString()
         {

@@ -7,12 +7,12 @@ namespace CarAgency.Entities
 {
     class Venda
     {            
+        
 
-        public int QuantidadeDeCarros { get; private set; }
-
-        public double ValorTotal { get; private set; }
+        public int QuantidadeDeCarros { get; private set; }        
 
         public DateTime DataVenda { get; set; }
+        public double ValorTotal { get; set; }
 
         public Consultor Consultor { get; set; }
 
@@ -32,21 +32,23 @@ namespace CarAgency.Entities
             Carros = carrosVendidos;
             QuantidadeDeCarros = carrosVendidos.Count;
             DataVenda = DateTime.Now;
-            addCarrosListaDescricao_IncrementarValorTotal(carrosVendidos);
+            AddCarrosListaDescricao_e_SetValorTotal(carrosVendidos);
         }
 
-        public void addCarrosListaDescricao_IncrementarValorTotal(List<Carro> carrosVendidos)
-        {            
+       
+
+        public void AddCarrosListaDescricao_e_SetValorTotal(List<Carro> carrosVendidos)
+        {
             foreach (Carro carro in carrosVendidos)
             {
                 ValorTotal += carro.Preco;
                 Descricao += $"\n{carro}";
             }
-        }
+        }       
 
-        public void IncrementarValorTotal(double valor)
+        public void AddDesconto(double valor)
         {
-            ValorTotal += valor;
+            ValorTotal -= valor;
         }
 
         public override string ToString()
