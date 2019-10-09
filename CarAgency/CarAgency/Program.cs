@@ -10,27 +10,35 @@ namespace CarAgency
     {
         static void Main(string[] args)
         {
+            #region "Variáveis"
+            //Variável para gerenciar as opções do usuário no menu principal
             int opcaoUsuario = 5;
-            //Clientes
+
+            //Variáveis para gerenciar objetos do tipo: Cliente
             List<Cliente> clientes = new List<Cliente>();
             int opcaoUsuarioCliente = 5;
 
-            //Carros
+            //Variáveis para gerenciar objetos do tipo: Carro
             List<Carro> carros = new List<Carro>();
             int opcaoUsuarioCarro = 5;
 
-            //Vendas
+            //Variáveis para gerenciar objetos do tipo: Carro
             List<Consultor> consultores = new List<Consultor>();
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
             bool addCarrosVendas = false;
             double valorVenda = 0.0;
 
+            //Variável para gerenciar menu, ela verificar se o usuário já passou pela sessão.
             int count = 0;
+            #endregion
 
-
+            #region "Menu principal: um todo"
+            //Arvôre: Menu Principal
             while (opcaoUsuario != 0)
             {
+                //Painel de opções Menu: Principal
+                #region Painel Menu Principal
                 Console.Write("Bem - vindo, (a)" +
               "\n1 - Menu Cliente" +
               "\n2 - Menu Carros" +
@@ -38,16 +46,27 @@ namespace CarAgency
               "\n0 - Sair" +
               "\n" +
               "\n>_ ");
+                #endregion
 
+                #region Receber Opção e Limpar Console
+                //Variável que gerencia a opção selecionada pelo usuário.
                 opcaoUsuario = int.Parse(Console.ReadLine());
-                Console.Clear();
 
+                //Limpa o console para exibir o menu da opção escolhida.
+                Console.Clear();
+                #endregion
+
+
+                //Switch para gerenciar a opção inserida pelo usuário
+                #region Área de navegação do usuário
                 switch (opcaoUsuario)
                 {
+                    //Arvore: Menu Principal -> Menu Clliente
                     case 1:
                         count = 0;
                         do
                         {
+                            //Painel de opções Menu: Cliente
                             if (count == 0)
                             {
                                 Console.Write("Menu Clientes" +
@@ -58,9 +77,13 @@ namespace CarAgency
                                 count++;
                             }
 
+                            //Variável gerenciadora nessse momento recebe o valor de opção dentro do menu cliente
                             opcaoUsuarioCliente = int.Parse(Console.ReadLine());
+                            //Limpa o console para exibir o sub-menu.
                             Console.Clear();
 
+                            //Arvore: Menu Principal -> Menu Cliente -> Cadastrar Clientes
+                            #region Cadastrar Clientes
                             if (opcaoUsuarioCliente == 1)
                             {
                                 Console.Write("Digite o nome do cliente: ");
@@ -77,6 +100,10 @@ namespace CarAgency
                                 Console.ReadKey();
                                 Console.Clear();
                             }
+                            #endregion
+
+                            //Arvore: Menu Principal -> Menu Cliente -> Consultar Clientes
+                            #region Consultar Clientes
                             else if (opcaoUsuarioCliente == 2)
                             {
                                 Console.Clear();
@@ -93,6 +120,8 @@ namespace CarAgency
                                 {
                                     Console.WriteLine("Não existe nenhum cliente cadastrado!");
                                 }
+                                #endregion
+
                                 Console.WriteLine();
                                 Console.WriteLine("0 - voltar");
                             }
@@ -229,6 +258,7 @@ namespace CarAgency
                                         valorVenda += carroVendido.Preco;
                                         carrosComprados.Add(carroVendido);
 
+
                                         if (consultor.Cargo.ToString().Equals("Estagiario"))
                                         {
                                             Venda venda = new Venda(cliente, consultor, carrosComprados);
@@ -246,6 +276,7 @@ namespace CarAgency
                                                 addCarrosVendas = false;
                                             }
                                         }
+
                                         else if (consultor.Cargo.ToString().Equals("Junior"))
                                         {
 
@@ -336,10 +367,14 @@ namespace CarAgency
                         Console.WriteLine("Opção inválida!");
                         break;
                 }
+                #endregion
             }
+            #endregion
 
         }
 
+        //Função para todos as operações que envolve a efetuação de uma venda
+        #region Função Efetuar Venda e Emitir Nota Fiscal        
         static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados)
         {
             carrosComprados.Clear();
@@ -350,6 +385,9 @@ namespace CarAgency
             Console.WriteLine(venda);
             return false;
         }
+        #endregion
+
+
 
     }
 }
