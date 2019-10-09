@@ -20,7 +20,7 @@ namespace CarAgency
 
             //Variáveis para gerenciar objetos do tipo: Carro
             List<Carro> carrosDisponiveis = new List<Carro>();
-            int opcaoUsuarioCarro = 5;          
+            int opcaoUsuarioCarro = 5;
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
             bool addCarrosVendas = false;
@@ -276,8 +276,7 @@ namespace CarAgency
                                                 addCarrosVendas = false;
                                             }
                                         }
-
-                                        else if (consultor.Cargo.ToString().Equals("Junior"))
+                                        else
                                         {
 
                                             Console.Write("Acrescentar carro na venda? " +
@@ -293,22 +292,28 @@ namespace CarAgency
                                                     "\nTente novamente: ");
                                                 continuarRegistrandoVenda = int.Parse(Console.ReadLine());
                                             }
-
                                             if (continuarRegistrandoVenda == 0)
                                             {
-                                                Venda venda = new Venda(cliente, consultor, carrosComprados);
-                                                consultor.VerificarConsultorPodeVender(venda);
                                                 valorVenda = 0.0;
-                                                if (consultor.AprovadoParaVender)
+                                                Venda venda = new Venda(cliente, consultor, carrosComprados);
+
+                                                if (consultor.Cargo.ToString().Equals("Junior"))
                                                 {
-                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                    consultor.VerificarConsultorPodeVender(venda);
+                                                    if (consultor.AprovadoParaVender)
+                                                    {
+                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Atingiu limite para Juniores!");
+                                                        addCarrosVendas = false;
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("Atingiu limite para Juniores!");
-                                                    addCarrosVendas = false;
+                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
                                                 }
-
                                             }
 
                                         }
@@ -387,11 +392,15 @@ namespace CarAgency
         }
         #endregion
 
+        //Função para Adicionar o carro na lista de carros vendidos e deletar o mesmo da lista de carros disponíveis
+        #region Função Adicionar - Remover Lista
         static void AdicionarCarroVendido_RemoverDaListaDisponiveis(List<Carro> carrosComprados, List<Carro> carrosDisponiveis, Carro carro)
         {
             carrosComprados.Add(carro);
             carrosDisponiveis.Remove(carro);
         }
+        #endregion
+
 
 
 
