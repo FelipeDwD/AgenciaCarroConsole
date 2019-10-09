@@ -14,6 +14,8 @@ namespace CarAgency.Entities
         public DateTime DataVenda { get; set; }
         public double ValorTotal { get; set; }
 
+        public double Desconto { get; private set; }
+
         public Consultor Consultor { get; set; }
 
         public Cliente Cliente { get; private set; }
@@ -49,12 +51,14 @@ namespace CarAgency.Entities
         public void AddDesconto(double valor)
         {
             ValorTotal -= valor;
+            Desconto = valor;
         }
 
         public override string ToString()
         {
             return $"\n::: NOTA EMITIDA :::" +
                 $"\n Valor Total: {ValorTotal.ToString("F2", CultureInfo.InvariantCulture)}" +
+                $"\n Desconto: {Desconto.ToString("F2", CultureInfo.InvariantCulture)}" +
                 $"\n Quantidade de Carros: {QuantidadeDeCarros}" +
                 $"\n Data da Venda: {DataVenda}" +
                 $"\n\n Carro(s) comprados: {Descricao}";

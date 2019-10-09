@@ -241,7 +241,7 @@ namespace CarAgency
                                             else
                                             {
                                                 Console.Clear();
-                                                Console.WriteLine("Excedeu limite do estagiário!");
+                                                Console.WriteLine("Atingiu limite do estagiário!");
                                                 carrosComprados.Clear();
                                                 addCarrosVendas = false;
                                             }
@@ -274,7 +274,7 @@ namespace CarAgency
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("Excedeu limite para Juniores!");
+                                                    Console.WriteLine("Atingiu limite para Juniores!");
                                                     addCarrosVendas = false;
                                                 }
 
