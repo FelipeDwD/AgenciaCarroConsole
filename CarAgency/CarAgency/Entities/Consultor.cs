@@ -22,8 +22,7 @@ namespace CarAgency.Entities
 
         public void Vender(Venda venda)
         {
-            double desconto = 0.0;
-            double valorDesconto = 0.0;
+            double desconto = 0.0;           
             int comprasCliente = venda.Cliente.QuantidadeComprasAgencia;
             bool jaEfetuouCompra = comprasCliente != 0;
 
@@ -32,11 +31,12 @@ namespace CarAgency.Entities
 
             if (jaEfetuouCompra)
             {
-                if (comprasCliente >= 1)
+                double valorDesconto = 0.0;
+                if (comprasCliente == 1)
                 {
                     desconto = 0.05;
                 }
-                else if (comprasCliente > 2)
+                else if (comprasCliente == 3)
                 {
                     desconto = 0.08;
                 }

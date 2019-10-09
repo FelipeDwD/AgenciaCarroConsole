@@ -19,15 +19,15 @@ namespace CarAgency
             int opcaoUsuarioCliente = 5;
 
             //Variáveis para gerenciar objetos do tipo: Carro
-            List<Carro> carros = new List<Carro>();
-            int opcaoUsuarioCarro = 5;
-
-            //Variáveis para gerenciar objetos do tipo: Carro
-            List<Consultor> consultores = new List<Consultor>();
+            List<Carro> carrosDisponiveis = new List<Carro>();
+            int opcaoUsuarioCarro = 5;          
             List<Carro> carrosComprados = new List<Carro>();
             int opcaoUsuarioVendas = 5;
             bool addCarrosVendas = false;
             double valorVenda = 0.0;
+
+            //Variável para gerenciar objeto do tipo: Consultor
+            List<Consultor> consultores = new List<Consultor>();
 
             //Variável para gerenciar menu, ela verificar se o usuário já passou pela sessão.
             int count = 0;
@@ -165,7 +165,7 @@ namespace CarAgency
                                 double preco = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
                                 Carro carro = new Carro(marca, modelo, cor, placa, preco);
-                                carros.Add(carro);
+                                carrosDisponiveis.Add(carro);
                                 Console.Clear();
                                 Console.WriteLine("Carro cadastrado!");
                                 count = 0;
@@ -175,10 +175,10 @@ namespace CarAgency
                             else if (opcaoUsuarioCarro == 2)
                             {
                                 Console.Clear();
-                                if (carros.Count > 0)
+                                if (carrosDisponiveis.Count > 0)
                                 {
-                                    Console.WriteLine($"Total de carros cadastrados: {carros.Count}");
-                                    foreach (Carro carro in carros)
+                                    Console.WriteLine($"Total de carros cadastrados: {carrosDisponiveis.Count}");
+                                    foreach (Carro carro in carrosDisponiveis)
                                     {
                                         Console.WriteLine(carro);
                                     }
@@ -216,7 +216,7 @@ namespace CarAgency
                             if (opcaoUsuarioVendas == 1)
                             {
 
-                                if (clientes.Count != 0 && carros.Count != 0 && consultores.Count != 0)
+                                if (clientes.Count != 0 && carrosDisponiveis.Count != 0 && consultores.Count != 0)
                                 {
                                     addCarrosVendas = true;
                                     Console.WriteLine("Quem efetuou a venda? ");
@@ -246,17 +246,17 @@ namespace CarAgency
                                     {
                                         Console.Clear();
                                         Console.WriteLine($"Qual carro {cliente.Nome} comprou? ");
-                                        for (int i = 0; i < carros.Count; i++)
+                                        for (int i = 0; i < carrosDisponiveis.Count; i++)
                                         {
                                             Console.WriteLine($"\n[{(i + 1)}] :: " +
-                                                $"{carros[i]}");
+                                                $"{carrosDisponiveis[i]}");
                                         }
                                         Console.WriteLine();
                                         Console.Write(">_ ");
                                         int carroVendidoPosicao = int.Parse(Console.ReadLine()) - 1;
-                                        Carro carroVendido = carros[carroVendidoPosicao];
+                                        Carro carroVendido = carrosDisponiveis[carroVendidoPosicao];
                                         valorVenda += carroVendido.Preco;
-                                        carrosComprados.Add(carroVendido);
+                                        AdicionarCarroVendido_RemoverDaListaDisponiveis(carrosComprados, carrosDisponiveis, carroVendido);
 
 
                                         if (consultor.Cargo.ToString().Equals("Estagiario"))
@@ -319,7 +319,7 @@ namespace CarAgency
                                     Console.WriteLine("Não há disponível todos recursos suficientes para efetuar uma venda!" +
                                         "\nFavor, verificar recursos: " +
                                         "\n" +
-                                        $"\nCarros cadastrados: {carros.Count}" +
+                                        $"\nCarros cadastrados: {carrosDisponiveis.Count}" +
                                         $"\nConsultores cadastrados: {consultores.Count}" +
                                         $"\nClientes cadastrados: {clientes.Count}");
                                 }
@@ -386,6 +386,12 @@ namespace CarAgency
             return false;
         }
         #endregion
+
+        static void AdicionarCarroVendido_RemoverDaListaDisponiveis(List<Carro> carrosComprados, List<Carro> carrosDisponiveis, Carro carro)
+        {
+            carrosComprados.Add(carro);
+            carrosDisponiveis.Remove(carro);
+        }
 
 
 
