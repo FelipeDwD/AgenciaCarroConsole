@@ -256,7 +256,7 @@ namespace CarAgency
                                         int carroVendidoPosicao = int.Parse(Console.ReadLine()) - 1;
                                         Carro carroVendido = carrosDisponiveis[carroVendidoPosicao];
                                         valorVenda += carroVendido.Preco;
-                                        AdicionarCarroVendido_RemoverDaListaDisponiveis(carrosComprados, carrosDisponiveis, carroVendido);
+                                        carrosComprados.Add(carroVendido);
 
 
                                         if (consultor.Cargo.ToString().Equals("Estagiario"))
@@ -266,7 +266,7 @@ namespace CarAgency
 
                                             if (consultor.AprovadoParaVender)
                                             {
-                                                addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
                                             }
                                             else
                                             {
@@ -302,7 +302,7 @@ namespace CarAgency
                                                     consultor.VerificarConsultorPodeVender(venda);
                                                     if (consultor.AprovadoParaVender)
                                                     {
-                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
                                                     }
                                                     else
                                                     {
@@ -312,7 +312,7 @@ namespace CarAgency
                                                 }
                                                 else
                                                 {
-                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados);
+                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
                                                 }
                                             }
 
@@ -380,7 +380,7 @@ namespace CarAgency
 
         //Função para todos as operações que envolve a efetuação de uma venda
         #region Função Efetuar Venda e Emitir Nota Fiscal        
-        static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados)
+        static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados, List<Carro> carrosDisponiveis, Carro carroComprado)
         {
             carrosComprados.Clear();
             consultor.Vender(venda);
@@ -388,16 +388,16 @@ namespace CarAgency
             Console.WriteLine("Venda efetuada com sucesso!");
             Console.ReadKey();
             Console.WriteLine(venda);
+            AdicionarCarroVendido_RemoverDaListaDisponiveis(carrosDisponiveis, carroComprado);
             return false;
         }
         #endregion
 
         //Função para Adicionar o carro na lista de carros vendidos e deletar o mesmo da lista de carros disponíveis
         #region Função Adicionar - Remover Lista
-        static void AdicionarCarroVendido_RemoverDaListaDisponiveis(List<Carro> carrosComprados, List<Carro> carrosDisponiveis, Carro carro)
-        {
-            carrosComprados.Add(carro);
-            carrosDisponiveis.Remove(carro);
+        static void AdicionarCarroVendido_RemoverDaListaDisponiveis(List<Carro> carrosDisponiveis, Carro carroComprado)
+        {            
+            carrosDisponiveis.Remove(carroComprado);
         }
         #endregion
 
