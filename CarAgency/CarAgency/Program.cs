@@ -307,6 +307,7 @@ namespace CarAgency
                                                     else
                                                     {
                                                         Console.WriteLine("Atingiu limite para Juniores!");
+                                                        carrosComprados.Clear();
                                                         addCarrosVendas = false;
                                                     }
                                                 }
@@ -388,18 +389,12 @@ namespace CarAgency
             Console.WriteLine("Venda efetuada com sucesso!");
             Console.ReadKey();
             Console.WriteLine(venda);
-            AdicionarCarroVendido_RemoverDaListaDisponiveis(carrosDisponiveis, carroComprado);
+            carrosDisponiveis.Remove(carroComprado);
             return false;
         }
         #endregion
 
-        //Função para Adicionar o carro na lista de carros vendidos e deletar o mesmo da lista de carros disponíveis
-        #region Função Adicionar - Remover Lista
-        static void AdicionarCarroVendido_RemoverDaListaDisponiveis(List<Carro> carrosDisponiveis, Carro carroComprado)
-        {            
-            carrosDisponiveis.Remove(carroComprado);
-        }
-        #endregion
+
 
 
 
