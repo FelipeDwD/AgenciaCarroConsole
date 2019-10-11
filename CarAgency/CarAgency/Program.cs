@@ -266,14 +266,11 @@ namespace CarAgency
 
                                             if (consultor.AprovadoParaVender)
                                             {
-                                                addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
+                                                addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis);
                                             }
                                             else
                                             {
-                                                Console.Clear();
-                                                Console.WriteLine("Atingiu limite do estagiário!");
-                                                carrosComprados.Clear();
-                                                addCarrosVendas = false;
+                                                addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados);
                                             }
                                         }
                                         else
@@ -302,18 +299,16 @@ namespace CarAgency
                                                     consultor.VerificarConsultorPodeVender(venda);
                                                     if (consultor.AprovadoParaVender)
                                                     {
-                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
+                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis);
                                                     }
                                                     else
                                                     {
-                                                        Console.WriteLine("Atingiu limite para Juniores!");
-                                                        carrosComprados.Clear();
-                                                        addCarrosVendas = false;
+                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados);
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis, carroVendido);
+                                                    addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis);
                                                 }
                                             }
 
@@ -381,18 +376,35 @@ namespace CarAgency
 
         //Função para todos as operações que envolve a efetuação de uma venda
         #region Função Efetuar Venda e Emitir Nota Fiscal        
-        static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados, List<Carro> carrosDisponiveis, Carro carroComprado)
-        {
-            carrosComprados.Clear();
+        static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados, List<Carro> carrosDisponiveis)
+        {            
             consultor.Vender(venda);
             Console.Clear();
             Console.WriteLine("Venda efetuada com sucesso!");
             Console.ReadKey();
             Console.WriteLine(venda);
-            carrosDisponiveis.Remove(carroComprado);
+            LimparListas_CarrosDisponiveis_E_CarrosComprados(carrosComprados, carrosDisponiveis);
             return false;
         }
         #endregion
+
+        static bool LimiteVendaColaborador_E_LimparLista(List<Carro> carrosComprados)
+        {
+            Console.Clear();
+            Console.WriteLine("Atingiu limite para Juniores");
+            carrosComprados.Clear();
+            return false;
+        }
+
+        static void LimparListas_CarrosDisponiveis_E_CarrosComprados(List<Carro> carrosComprados, List<Carro> carrosDisponiveis)
+        {
+            foreach (Carro carro in carrosComprados)
+            {
+                carrosDisponiveis.Remove(carro);
+            }
+            carrosComprados.Clear();
+        }
+
 
 
 
