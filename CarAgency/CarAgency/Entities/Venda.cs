@@ -61,7 +61,8 @@ namespace CarAgency.Entities
                 $"\n Desconto: {Desconto.ToString("F2", CultureInfo.InvariantCulture)}" +
                 $"\n Quantidade de Carros: {QuantidadeDeCarros}" +
                 $"\n Data da Venda: {DataVenda}" +
-                $"\n\n Carro(s) comprados: {Descricao}";
+                $"\n\n Carro(s) comprados: {Descricao}" +
+                $"\n ::::::::::::::::::::::::::::::::::::";
         }
 
 

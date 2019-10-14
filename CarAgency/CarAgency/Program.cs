@@ -247,9 +247,9 @@ namespace CarAgency
                                         Console.Clear();
                                         Console.WriteLine($"Qual carro {cliente.Nome} comprou? ");
                                         for (int i = 0; i < carrosDisponiveis.Count; i++)
-                                        {                                        
+                                        {
                                             Console.WriteLine($"\n[{(i + 1)}] :: " +
-                                            $"{carrosDisponiveis[i]}");                                              
+                                            $"{carrosDisponiveis[i]}");
                                         }
                                         Console.WriteLine();
                                         Console.Write(">_ ");
@@ -271,7 +271,7 @@ namespace CarAgency
                                             }
                                             else
                                             {
-                                                addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);                                               
+                                                addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);
                                             }
                                         }
                                         else
@@ -304,7 +304,7 @@ namespace CarAgency
                                                     }
                                                     else
                                                     {
-                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);                                                        
+                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);
                                                     }
                                                 }
                                                 else
@@ -312,7 +312,30 @@ namespace CarAgency
                                                     addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis);
                                                 }
                                             }
+                                            else
+                                            {
+                                                if (carrosDisponiveis.Count == 0)
+                                                {
+                                                    Venda venda = new Venda(cliente, consultor, carrosComprados);
+                                                    Console.WriteLine("Não existe mais carros no estoque");
+                                                    Console.WriteLine("1 - Finalizar venda" +
+                                                                     "\n0 - Cancelar venda");
 
+                                                    addCarrosVendas = false;
+
+                                                    int opcaoUsuarioFinalizar = int.Parse(Console.ReadLine());
+                                                    if (opcaoUsuarioFinalizar == 1)
+                                                    {
+                                                        addCarrosVendas = EfetuarVenda_EmitirNotaFiscal(venda, consultor, carrosComprados, carrosDisponiveis);
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Venda cancelada");
+                                                        Console.ReadKey();
+                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

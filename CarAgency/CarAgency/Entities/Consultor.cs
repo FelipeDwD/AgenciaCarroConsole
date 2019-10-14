@@ -10,7 +10,9 @@ namespace CarAgency.Entities
         private bool _aprovadoParaVender;
         public int QuantidadeDeVendas { get; set; }
         public string Nome { get; set; }
-        public ConsultorNivel Cargo { get; set; }        
+        public ConsultorNivel Cargo { get; set; }
+
+        public List<Venda> Vendas { get; set; } = new List<Venda>();
 
         public Consultor() { }
 
@@ -42,7 +44,8 @@ namespace CarAgency.Entities
                 }
                 valorDesconto = venda.ValorTotal * desconto;
                 venda.AddDesconto(valorDesconto);
-            }            
+            }
+            AdicionarVenda(venda);
         }
 
         public bool AprovadoParaVender
@@ -81,11 +84,30 @@ namespace CarAgency.Entities
             }                     
         }
 
+        public void AdicionarVenda(Venda venda)
+        {
+            Vendas.Add(venda);
+        }    
+
         public override string ToString()
         {
+            string vendasConsultor = "";            
+
+            if (Vendas.Count != 0)
+            {
+                foreach (Venda venda in Vendas)
+                {
+                    vendasConsultor += venda.ToString();
+                }
+            }
+            else
+            {
+                vendasConsultor = "Consultor não efetuou nenhuma venda";
+            }
             return $"Nome: {Nome}" +
                 $"\nCargo: {Cargo}" +
-                $"\nQuantidade de vendas: {QuantidadeDeVendas}";
+                $"\nQuantidade de vendas: {QuantidadeDeVendas}" +
+                $"\nVendas: {vendasConsultor}";
         }
     }
 }

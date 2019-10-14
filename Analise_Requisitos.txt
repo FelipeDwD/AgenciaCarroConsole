@@ -1,17 +1,16 @@
+
+:::::::::::::::: PROBLEMA A SER RESOLVIDO ::::::::::::::::
+
 Elaborar um projeto para o gerente de uma âgencia de carros.
+
+Ele precisa de um mini sistema para efetuar vendas. Os colaboradores dele efetua orçamentos de carros, no orçamento é apontado o vendedor, o cliente que ele vendeu e quais carros ele vendeu. O gerente precisa desse sistema para saber se a venda pode ser efetuada e qual o valor total da venda contando com os descontos (caso houver).
 
 * Os consultores possuem:
 
-	* Nome
-	* Cargo (Enum)
-	* N vendas por mês
-
-* Cargos:
+	* Nome;
+	* Cargo: Estágiario, Junior, Pleno e Senior.
+	* Número de vendas;
 	
-	* Estágiário
-	* Junior
-	* Pleno
-	* Senior
 
 Restrições:
 	* Estagiários só pode vender 1 carro por compra e no máximo R$ 25.000,00.
@@ -20,31 +19,24 @@ Restrições:
 
 * As vendas possuem
 
-	* Quantidade de carros
-	* Data 
-	* Cliente
+	* Quantidade de carros;
+	* Data;
+	* Cliente.
 
 * Os clientes possuem
 
-	* Nome 
-	* Idade
-	* Quantidade compras na agência
+	* Nome; 
+	* Idade;
+	* Quantidade compras na agência.
 
 Restrições:
 	* Se o cliente já possui uma compra na agência a segunda devrá ter 5% de desconto;
 	* Se o cliente possui mais de 2 compras a terceira deverá ter 8% de desconto.
 
-* Os carros possuem
-	
-	* Marca
-	* Modelo
-	* Cor
-	* Placa
+* Os carros possuem:	
+	* Marca;
+	* Modelo;
+	* Cor;
+	* Placa.
 
 
-O dono da Agência está fazendo uma pesquisa para saber quanto os colaboradores dele estão vendendo, ele quer pesquisar pelas seguintes métricas:
-
-- Lista de vendas total por colaborador em ordem decrescente.
-- Lista somente das vendas de estágios, junior, pleno e sênior.
-- Lista dos carros mais vendidos no mês e no ano.
-- Lista dos campões de venda: estagiário, junior, pleno e sênior que mais vende. Ele quer somente o top 1 de cada cargo
