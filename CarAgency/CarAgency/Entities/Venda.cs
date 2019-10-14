@@ -56,13 +56,23 @@ namespace CarAgency.Entities
 
         public override string ToString()
         {
-            return $"\n::: NOTA EMITIDA :::" +
-                $"\n Valor Total: {ValorTotal.ToString("F2", CultureInfo.InvariantCulture)}" +
-                $"\n Desconto: {Desconto.ToString("F2", CultureInfo.InvariantCulture)}" +
-                $"\n Quantidade de Carros: {QuantidadeDeCarros}" +
-                $"\n Data da Venda: {DataVenda}" +
-                $"\n\n Carro(s) comprados: {Descricao}" +
-                $"\n ::::::::::::::::::::::::::::::::::::";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("::: NOTA EMITIDA :::");
+            sb.AppendLine("Valor total: ");
+            sb.Append(ValorTotal.ToString("F2", CultureInfo.InvariantCulture));
+            sb.AppendLine("Desconto: ");
+            sb.Append(Desconto.ToString("F2", CultureInfo.InvariantCulture));
+            sb.AppendLine("Quantidade de carros: ");
+            sb.Append(QuantidadeDeCarros);
+            sb.AppendLine("Data venda: ");
+            sb.Append(DataVenda);
+            sb.AppendLine("Carros comprados");
+            sb.Append(Descricao);
+            sb.AppendLine(":::::::::::::::::::::::::::::");
+
+            return sb.ToString();
+
         }
 
 

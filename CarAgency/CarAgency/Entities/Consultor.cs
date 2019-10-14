@@ -109,12 +109,18 @@ namespace CarAgency.Entities
 
         public override string ToString()
         {
-            string vendasConsultor = HistoricoVendas();
+            StringBuilder sb = new StringBuilder();
 
-            return $"Nome: {Nome}" +
-                $"\nCargo: {Cargo}" +
-                $"\nQuantidade de vendas: {QuantidadeDeVendas}" +
-                $"\nVendas: {vendasConsultor}";
+            sb.Append("Nome: ");
+            sb.Append(Nome);
+            sb.AppendLine("Cargo: ");
+            sb.Append(Cargo);
+            sb.AppendLine("Quantidade de Vendas: ");
+            sb.Append(QuantidadeDeVendas);
+            sb.AppendLine("Histórico de vendas: ");
+            sb.AppendLine(HistoricoVendas());
+
+            return sb.ToString();
         }
     }
 }

@@ -27,11 +27,21 @@ namespace CarAgency.Entities
 
         public override string ToString()
         {
-            return $"\nMarca: {Marca}" +
-                $"\nModelo: {Modelo}" +
-                $"\nCor: {Cor}" +
-                $"\nPlaca: {Placa}" +
-                $"\nPreço: {Preco.ToString("F2", CultureInfo.InvariantCulture)}";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Marca: ");
+            sb.Append(Marca);
+            sb.AppendLine("Modelo: ");
+            sb.Append(Modelo);
+            sb.AppendLine("Cor: ");
+            sb.Append(Cor);
+            sb.AppendLine("Placa: ");
+            sb.Append(Placa);
+            sb.AppendLine("Preço: ");
+            sb.Append(Preco.ToString("F2", CultureInfo.InvariantCulture));
+
+            return sb.ToString();
+
         }
     }
 }

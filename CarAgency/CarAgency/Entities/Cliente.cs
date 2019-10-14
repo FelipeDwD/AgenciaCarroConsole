@@ -47,12 +47,19 @@ namespace CarAgency.Entities
 
         public override string ToString()
         {
-            string comprasCliente = HistoricoCompras();
+            StringBuilder sb = new StringBuilder();          
 
-            return $"\nNome: {Nome}" +
-                $"\nIdade: {Idade}" +
-                $"\nQuantidade Compras: {QuantidadeComprasAgencia}" +
-                $"\nCompras: {comprasCliente}";
+            sb.Append("Nome: ");
+            sb.Append(Nome);
+            sb.AppendLine("Idade: ");
+            sb.Append(Idade);
+            sb.AppendLine("Quantidade de compras: ");
+            sb.Append(QuantidadeComprasAgencia);
+            sb.AppendLine("Compras: ");
+            sb.AppendLine(HistoricoCompras());
+
+            return sb.ToString();
+
         }
     }
 }
