@@ -247,9 +247,9 @@ namespace CarAgency
                                         Console.Clear();
                                         Console.WriteLine($"Qual carro {cliente.Nome} comprou? ");
                                         for (int i = 0; i < carrosDisponiveis.Count; i++)
-                                        {
+                                        {                                        
                                             Console.WriteLine($"\n[{(i + 1)}] :: " +
-                                                $"{carrosDisponiveis[i]}");
+                                            $"{carrosDisponiveis[i]}");                                              
                                         }
                                         Console.WriteLine();
                                         Console.Write(">_ ");
@@ -257,6 +257,7 @@ namespace CarAgency
                                         Carro carroVendido = carrosDisponiveis[carroVendidoPosicao];
                                         valorVenda += carroVendido.Preco;
                                         carrosComprados.Add(carroVendido);
+                                        carrosDisponiveis.Remove(carroVendido);
 
 
                                         if (consultor.Cargo.ToString().Equals("Estagiario"))
@@ -270,7 +271,7 @@ namespace CarAgency
                                             }
                                             else
                                             {
-                                                addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados);
+                                                addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);                                               
                                             }
                                         }
                                         else
@@ -303,7 +304,7 @@ namespace CarAgency
                                                     }
                                                     else
                                                     {
-                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados);
+                                                        addCarrosVendas = LimiteVendaColaborador_E_LimparLista(carrosComprados, carrosDisponiveis);                                                        
                                                     }
                                                 }
                                                 else
@@ -377,7 +378,7 @@ namespace CarAgency
         //Função para todos as operações que envolve a efetuação de uma venda
         #region Função Efetuar Venda e Emitir Nota Fiscal        
         static bool EfetuarVenda_EmitirNotaFiscal(Venda venda, Consultor consultor, List<Carro> carrosComprados, List<Carro> carrosDisponiveis)
-        {            
+        {
             consultor.Vender(venda);
             Console.Clear();
             Console.WriteLine("Venda efetuada com sucesso!");
@@ -388,14 +389,21 @@ namespace CarAgency
         }
         #endregion
 
-        static bool LimiteVendaColaborador_E_LimparLista(List<Carro> carrosComprados)
+        #region Função Limite de valor colaborador
+        static bool LimiteVendaColaborador_E_LimparLista(List<Carro> carrosComprados, List<Carro> carrosDisponiveis)
         {
+            foreach (Carro carro in carrosComprados)
+            {
+                carrosDisponiveis.Add(carro);
+            }
             Console.Clear();
             Console.WriteLine("Atingiu limite para Juniores");
             carrosComprados.Clear();
             return false;
         }
+        #endregion
 
+        #region Função para Limpar listas carros disponíveis e carros cadastrados
         static void LimparListas_CarrosDisponiveis_E_CarrosComprados(List<Carro> carrosComprados, List<Carro> carrosDisponiveis)
         {
             foreach (Carro carro in carrosComprados)
@@ -404,12 +412,6 @@ namespace CarAgency
             }
             carrosComprados.Clear();
         }
-
-
-
-
-
-
-
+        #endregion
     }
 }
