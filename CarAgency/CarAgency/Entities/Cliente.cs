@@ -10,6 +10,8 @@ namespace CarAgency.Entities
         public int Idade { get; set; }
         public int QuantidadeComprasAgencia { get; private set; }
 
+        public List<Venda> Compras { get; set; } = new List<Venda>();
+
         public Cliente() { }
 
         public Cliente(string nome, int idade)
@@ -18,17 +20,39 @@ namespace CarAgency.Entities
             Idade = idade;            
         }
 
-        public void AddCompra()
+        public void AddCompra_AtualizarQuantidadeCompras(Venda venda)
         {
             QuantidadeComprasAgencia++;
+            Compras.Add(venda);
         }
        
+        public string HistoricoCompras()
+        {
+            string comprasCliente = "";
+
+            if (Compras.Count != 0)
+            {
+                foreach (Venda venda in Compras)
+                {
+                    comprasCliente += venda.ToString();
+                }
+            }
+            else
+            {
+                comprasCliente = "Cliente não efetuou nenhum compra ainda";
+            }
+            return comprasCliente;
+        }
+
 
         public override string ToString()
         {
+            string comprasCliente = HistoricoCompras();
+
             return $"\nNome: {Nome}" +
                 $"\nIdade: {Idade}" +
-                $"\nQuantidade Compras: {QuantidadeComprasAgencia}";
+                $"\nQuantidade Compras: {QuantidadeComprasAgencia}" +
+                $"\nCompras: {comprasCliente}";
         }
     }
 }

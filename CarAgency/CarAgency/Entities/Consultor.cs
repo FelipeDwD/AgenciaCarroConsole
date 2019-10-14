@@ -29,7 +29,7 @@ namespace CarAgency.Entities
             bool jaEfetuouCompra = comprasCliente != 0;
 
             QuantidadeDeVendas++;
-            venda.Cliente.AddCompra();
+            venda.Cliente.AddCompra_AtualizarQuantidadeCompras(venda);
 
             if (jaEfetuouCompra)
             {
@@ -89,9 +89,9 @@ namespace CarAgency.Entities
             Vendas.Add(venda);
         }    
 
-        public override string ToString()
+        public string HistoricoVendas()
         {
-            string vendasConsultor = "";            
+            string vendasConsultor = "";
 
             if (Vendas.Count != 0)
             {
@@ -104,6 +104,13 @@ namespace CarAgency.Entities
             {
                 vendasConsultor = "Consultor não efetuou nenhuma venda";
             }
+            return vendasConsultor;
+        }
+
+        public override string ToString()
+        {
+            string vendasConsultor = HistoricoVendas();
+
             return $"Nome: {Nome}" +
                 $"\nCargo: {Cargo}" +
                 $"\nQuantidade de vendas: {QuantidadeDeVendas}" +

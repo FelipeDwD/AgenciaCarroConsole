@@ -1,9 +1,9 @@
 
-:::::::::::::::: PROBLEMA A SER RESOLVIDO ::::::::::::::::
+							:::::::::::::::: PROBLEMA A SER RESOLVIDO ::::::::::::::::
 
 Elaborar um projeto para o gerente de uma âgencia de carros.
 
-Ele precisa de um mini sistema para efetuar vendas. Os colaboradores dele efetua orçamentos de carros, no orçamento é apontado o vendedor, o cliente que ele vendeu e quais carros ele vendeu. O gerente precisa desse sistema para saber se a venda pode ser efetuada e qual o valor total da venda contando com os descontos (caso houver).
+Ele precisa de um mini sistema para efetuar vendas. Os colaboradores dele efetua orçamentos de carros, no orçamento é apontado o vendedor, o cliente que ele vendeu e quais carros ele vendeu. O gerente precisa desse sistema para saber se a venda pode ser efetuada e qual o valor total da venda contando com os descontos (caso houver). O gerente precisa também que fique registrada o histórico de compras de um cliente e vendas de um consultor.
 
 * Os consultores possuem:
 
